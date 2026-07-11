@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#F4EFE4" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Daily Word" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23F4EFE4'/%3E%3Cpath d='M50 28c-7-5-17-6-24-4v44c7-2 17-1 24 4 7-5 17-6 24-4V24c-7-2-17-1-24 4z' fill='none' stroke='%237A2E2E' stroke-width='4' stroke-linejoin='round'/%3E%3Cpath d='M50 28v44' stroke='%23B08526' stroke-width='4'/%3E%3C/svg%3E" />
+<title>Daily Word</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#F4EFE4;--paper-2:#EFE8D9;--card:#FBF8F1;
+    --ink:#1C2434;--ink-soft:#4A5468;--muted:#8A8676;
+    --gold:#B08526;--gold-light:#C9A84A;--garnet:#7A2E2E;
+    --rule:rgba(28,36,52,0.14);--rule-soft:rgba(28,36,52,0.08);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'EB Garamond',Georgia,serif;line-height:1.55;
+    padding:env(safe-area-inset-top) 0 calc(env(safe-area-inset-bottom) + 44px);-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:580px;margin:0 auto;padding:0 22px;}
+
+  .hero{padding:34px 0 14px;}
+  .gilt{height:2px;width:100%;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-light) 40%,transparent 100%);margin-bottom:20px;}
+  .eyebrow{font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;
+    font-size:13px;color:var(--garnet);}
+  .date{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(30px,8vw,44px);line-height:1.02;
+    margin:6px 0 4px;letter-spacing:0.01em;}
+  .subline{font-style:italic;color:var(--ink-soft);font-size:16px;}
+  .progress{margin-top:12px;font-family:'Cormorant Garamond',serif;letter-spacing:0.1em;text-transform:uppercase;
+    font-size:12px;color:var(--muted);}
+  .pbar{margin-top:7px;height:3px;background:var(--paper-2);border-radius:3px;overflow:hidden;}
+  .pbar>i{display:block;height:100%;background:linear-gradient(90deg,var(--gold-light),var(--gold));width:0%;}
+
+  .card{margin-top:24px;background:var(--card);border:1px solid var(--rule);border-radius:4px;
+    box-shadow:0 1px 0 rgba(0,0,0,0.02);padding:22px;}
+  .card-label{font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+    font-size:12px;color:var(--gold);margin-bottom:8px;}
+  .reading{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(34px,10vw,52px);line-height:1;
+    color:var(--ink);margin:2px 0 4px;}
+  .reading-sub{font-style:italic;color:var(--ink-soft);font-size:16px;margin-bottom:18px;}
+  .prompt{font-style:italic;color:var(--ink-soft);font-size:16px;border-left:2px solid var(--gold);
+    padding-left:14px;margin:16px 0 20px;}
+
+  .row{display:flex;align-items:center;gap:14px;margin-top:6px;flex-wrap:wrap;}
+  .check{width:30px;height:30px;flex:0 0 30px;border-radius:50%;border:2px solid var(--garnet);background:transparent;
+    cursor:pointer;display:grid;place-items:center;padding:0;transition:background .15s,border-color .15s;}
+  .check svg{width:16px;height:16px;opacity:0;}
+  .check.done{background:var(--garnet);}
+  .check.done svg{opacity:1;}
+  .check:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
+  .check-text{font-style:italic;color:var(--muted);font-size:15px;}
+
+  .study{display:inline-flex;align-items:center;gap:8px;text-decoration:none;margin-top:4px;
+    font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;font-size:14px;
+    color:var(--card);background:var(--garnet);border-radius:3px;padding:11px 18px;}
+  .study:active{background:#5f2323;}
+  .study:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
+  .study svg{width:14px;height:14px;}
+  .study-note{font-size:13px;color:var(--muted);margin-top:10px;font-style:italic;}
+
+  .keep{display:inline-block;margin-top:16px;font-family:'Cormorant Garamond',serif;font-weight:600;
+    letter-spacing:0.12em;text-transform:uppercase;font-size:13px;color:var(--garnet);text-decoration:none;
+    border-bottom:1px solid var(--gold);padding-bottom:2px;cursor:pointer;}
+
+  .intro{margin-top:24px;background:var(--paper-2);border:1px solid var(--rule);border-radius:4px;overflow:hidden;}
+  .intro summary{list-style:none;cursor:pointer;padding:16px 20px;display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:var(--garnet);letter-spacing:0.02em;}
+  .intro summary::-webkit-details-marker{display:none;}
+  .intro .chev{color:var(--gold);font-size:15px;transition:transform .2s ease;}
+  details.intro[open] .chev{transform:rotate(90deg);}
+  .intro-body{padding:2px 20px 20px;}
+  .intro-field{padding:11px 0;border-top:1px solid var(--rule-soft);}
+  .intro-field:first-child{border-top:none;}
+  .intro-key{font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
+    font-size:12px;color:var(--gold);margin-bottom:2px;}
+  .intro-val{font-size:16px;color:var(--ink);}
+  .intro-debate{margin-top:6px;font-size:13px;font-style:italic;color:var(--muted);}
+
+  .divider{height:1px;background:var(--rule);margin:38px 0 6px;}
+  .plan-h{font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;
+    font-size:13px;color:var(--muted);margin:22px 0 8px;}
+  .glance{display:flex;flex-direction:column;}
+  .g-row{display:flex;align-items:baseline;gap:14px;padding:11px 2px;border-bottom:1px solid var(--rule-soft);font-size:16px;}
+  .g-day{font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+    font-size:12px;color:var(--gold);width:64px;flex:0 0 64px;}
+  .g-row.now .g-day{color:var(--garnet);}
+  .g-ref{color:var(--ink);}
+  .g-row.now .g-ref{font-weight:500;}
+
+  .rest-card{margin-top:24px;background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:22px;
+    font-size:16px;color:var(--ink-soft);}
+  .rest-card b{color:var(--ink);font-weight:500;}
+
+  .foot{color:var(--muted);font-size:13.5px;margin-top:30px;line-height:1.65;font-style:italic;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="gilt"></div>
+    <div class="eyebrow" id="eyebrow">Loading</div>
+    <h1 class="date" id="date">-</h1>
+    <div class="subline" id="subline"></div>
+    <div class="progress" id="progress"></div>
+    <div class="pbar"><i id="pbar"></i></div>
+  </div>
+
+  <div id="today"></div>
+
+  <div class="divider"></div>
+  <div class="plan-h">Coming up</div>
+  <div class="glance" id="glance"></div>
+
+  <div class="foot">
+    Read the passage in your Bible first. The study link is optional, for going deeper.
+    It only moves forward when you mark a chapter read, so you never fall behind and weekends are yours to choose.
+  </div>
+</div>
+
+<script>
+(function(){
+ "use strict";
+
+ var BOOKS=[
+  {name:"Mark",slug:"mark",chapters:16,intro:{
+    writer:"Traditionally John Mark, recording the apostle Peter's eyewitness account. Written around AD 55 to 65.",
+    audience:"Roman, non-Jewish believers, some facing pressure for their faith.",
+    purpose:"To show Jesus as the Servant and Son of God who acts. Fast and vivid, deeds over long speeches.",
+    fits:"Widely considered the earliest Gospel written. The events open the New Testament story, around AD 27 to 30.",
+    watch:"The word immediately. Mark rushes from scene to scene. Notice how fast Jesus moves and how people react."}},
+  {name:"Philippians",slug:"philippians",chapters:4,intro:{
+    writer:"Paul, with Timothy, written from prison, traditionally in Rome around AD 61 to 62.",
+    audience:"The church at Philippi, the first Paul planted in Europe, a generous congregation he loved.",
+    purpose:"A thank-you and an encouragement to rejoice and stay united, even under hardship.",
+    fits:"One of Paul's prison letters, written decades after the Gospel events, during his missionary years.",
+    watch:"How often joy and rejoice appear, remembering Paul writes this in chains."}},
+  {name:"1 John",slug:"1-john",chapters:5,intro:{
+    writer:"Traditionally the apostle John, late in his life, around AD 85 to 95.",
+    audience:"Churches John cared for, unsettled by false teachers who denied Jesus came in the flesh.",
+    purpose:"Assurance. How to know you truly have eternal life, walk in the light, and love one another.",
+    fits:"Among the last New Testament books written, near the end of the first century.",
+    watch:"The word know. John wants you certain, not anxious, about your faith."}},
+  {name:"Genesis",slug:"genesis",chapters:50,intro:{
+    writer:"Traditionally Moses, drawing on older accounts.",
+    audience:"Israel, learning who God is and where they came from as a people.",
+    purpose:"Beginnings. Creation, the fall, and God's covenant promises through Abraham's family. The foundation the rest of the Bible builds on.",
+    fits:"The first book of the Bible, covering the earliest events and the patriarchs, long before the rest of the story.",
+    watch:"God's promises, and how He keeps working through flawed families.",
+    debate:"Note: the authorship and formation of Genesis are debated among scholars. The traditional view credits Moses."}},
+  {name:"John",slug:"john",chapters:21,intro:{
+    writer:"Traditionally the apostle John, the disciple whom Jesus loved, around AD 85 to 95.",
+    audience:"A wide audience, written so readers would believe Jesus is the Christ, the Son of God.",
+    purpose:"To reveal who Jesus is through seven signs and seven I am sayings, and to invite belief and life in His name.",
+    fits:"The last Gospel written, reflecting on events already told in Mark, Matthew, and Luke.",
+    watch:"The I am statements, and the word believe."}},
+  {name:"Acts",slug:"acts",chapters:28,intro:{
+    writer:"Luke, the physician and Paul's companion. A sequel to his Gospel, around AD 62 to 70.",
+    audience:"First addressed to Theophilus, and through him the wider church.",
+    purpose:"How the good news spread outward from Jerusalem through the Spirit-filled church, from Peter to Paul.",
+    fits:"Picks up right where the Gospels end, covering about AD 30 to 62.",
+    watch:"The Holy Spirit's role, and how the gospel keeps crossing new boundaries."}}
+ ];
+
+ var TOTAL=0;BOOKS.forEach(function(b){TOTAL+=b.chapters;});
+
+ var PROMPTS=[
+  "Read slowly. What does this show about who God is?",
+  "What is one thing to carry into today?",
+  "Where do you see grace in this passage?",
+  "What is God inviting you to trust or obey?",
+  "Read it twice. What stands out the second time?",
+  "Who is Jesus here, and what is He like?",
+  "What would change if you fully believed this today?"
+ ];
+
+ function readingForIndex(idx){
+  if(idx<0||idx>=TOTAL)return null;
+  var acc=0;
+  for(var i=0;i<BOOKS.length;i++){
+   if(idx<acc+BOOKS[i].chapters){return {book:BOOKS[i],chapter:idx-acc+1,globalDay:idx+1};}
+   acc+=BOOKS[i].chapters;
+  }
+  return null;
+ }
+ function studyUrl(r){return "https://enduringword.com/bible-commentary/"+r.book.slug+"-"+r.chapter+"/";}
+ function refText(r){return r.book.name+" "+r.chapter;}
+
+ function todayStr(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();}
+ function load(k,def){try{var v=localStorage.getItem(k);return v===null?def:v;}catch(e){return def;}}
+ function save(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+ var pointer=parseInt(load("bibleProgress","0"),10);if(isNaN(pointer))pointer=0;
+ var lastRead=load("bibleLastRead","");
+ var sessionContinue=false;
+
+ var DAYNAMES=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+ var MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+ var CHECK='<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#FBF8F1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+ var BOOKICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v18H6a2 2 0 0 0-2 2z"/><path d="M4 5v14"/></svg>';
+
+ var now=new Date();
+ var eyebrow=document.getElementById("eyebrow");
+ var dateEl=document.getElementById("date");
+ var sublineEl=document.getElementById("subline");
+ var progressEl=document.getElementById("progress");
+ var pbar=document.getElementById("pbar");
+ var todayEl=document.getElementById("today");
+ dateEl.textContent=DAYNAMES[now.getDay()]+", "+MONTHS[now.getMonth()]+" "+now.getDate();
+
+ function renderIntro(book,openByDefault){
+  var d=document.createElement("details");d.className="intro";if(openByDefault)d.open=true;
+  var s=document.createElement("summary");
+  s.innerHTML='<span>Before you begin '+book.name+'</span><span class="chev">&#9656;</span>';
+  d.appendChild(s);
+  var body=document.createElement("div");body.className="intro-body";
+  var fields=[["Who wrote it",book.intro.writer],["Who it is for",book.intro.audience],["Why it was written",book.intro.purpose],["Where it fits",book.intro.fits],["What to watch for",book.intro.watch]];
+  fields.forEach(function(f){
+   var fd=document.createElement("div");fd.className="intro-field";
+   var k=document.createElement("div");k.className="intro-key";k.textContent=f[0];
+   var v=document.createElement("div");v.className="intro-val";v.textContent=f[1];
+   fd.appendChild(k);fd.appendChild(v);body.appendChild(fd);
+  });
+  if(book.intro.debate){var db=document.createElement("div");db.className="intro-debate";db.textContent=book.intro.debate;body.appendChild(db);}
+  d.appendChild(body);return d;
+ }
+
+ function updateHeaderProgress(){
+  progressEl.textContent=pointer+" of "+TOTAL+" chapters read";
+  pbar.style.width=(pointer/TOTAL*100)+"%";
+ }
+
+ function render(){
+  todayEl.innerHTML="";
+  updateHeaderProgress();
+
+  if(pointer>=TOTAL){
+   eyebrow.textContent="Plan complete";
+   sublineEl.textContent="Six books, all the way through.";
+   todayEl.innerHTML='<div class="rest-card"><b>Well done.</b> Mark, Philippians, 1 John, Genesis, John, and Acts, finished. Tell Claude and we will set the next book.</div>';
+   return;
+  }
+
+  var doneToday=(lastRead===todayStr())&&!sessionContinue;
+  var r=readingForIndex(pointer);
+
+  if(doneToday){
+   eyebrow.textContent="Read today \u2713";
+   sublineEl.textContent="Rest in it. Come back tomorrow, or keep going if you want more.";
+   var card=document.createElement("div");card.className="card";
+   var lbl=document.createElement("div");lbl.className="card-label";lbl.textContent="Next up";
+   var read=document.createElement("div");read.className="reading";read.textContent=refText(r);
+   var rsub=document.createElement("div");rsub.className="reading-sub";rsub.textContent="Waiting for you tomorrow.";
+   card.appendChild(lbl);card.appendChild(read);card.appendChild(rsub);
+   var keep=document.createElement("a");keep.className="keep";keep.textContent="Keep reading now";
+   keep.addEventListener("click",function(){sessionContinue=true;render();});
+   card.appendChild(keep);
+   todayEl.appendChild(card);
+   return;
+  }
+
+  eyebrow.textContent=r.book.name+" \u00b7 chapter "+r.chapter+" of "+r.book.chapters;
+  sublineEl.textContent=PROMPTS[(r.globalDay-1)%PROMPTS.length];
+
+  var card=document.createElement("div");card.className="card";
+  var lbl=document.createElement("div");lbl.className="card-label";lbl.textContent="Today's reading";
+  var read=document.createElement("div");read.className="reading";read.textContent=refText(r);
+  var rsub=document.createElement("div");rsub.className="reading-sub";rsub.textContent="Read it in your Bible.";
+  var pr=document.createElement("div");pr.className="prompt";pr.textContent=PROMPTS[(r.globalDay-1)%PROMPTS.length];
+
+  var row=document.createElement("div");row.className="row";
+  var chk=document.createElement("button");chk.className="check";chk.setAttribute("aria-label","Mark chapter read");chk.innerHTML=CHECK;
+  var ctext=document.createElement("span");ctext.className="check-text";ctext.textContent="Mark as read";
+  chk.addEventListener("click",function(){
+   pointer=pointer+1;lastRead=todayStr();sessionContinue=false;
+   save("bibleProgress",String(pointer));save("bibleLastRead",lastRead);
+   render();
+  });
+  row.appendChild(chk);row.appendChild(ctext);
+
+  var spacer=document.createElement("div");spacer.style.height="16px";
+  var study=document.createElement("a");study.className="study";study.href=studyUrl(r);study.target="_blank";study.rel="noopener";
+  study.innerHTML=BOOKICON+"Open the study";
+  var snote=document.createElement("div");snote.className="study-note";snote.textContent="Optional depth: Enduring Word study for "+refText(r)+".";
+
+  card.appendChild(lbl);card.appendChild(read);card.appendChild(rsub);card.appendChild(pr);card.appendChild(row);
+  card.appendChild(spacer);card.appendChild(study);card.appendChild(snote);
+  todayEl.appendChild(card);
+
+  todayEl.appendChild(renderIntro(r.book,r.chapter===1));
+
+  renderGlance();
+ }
+
+ function renderGlance(){
+  var glance=document.getElementById("glance");glance.innerHTML="";
+  for(var i=0;i<7;i++){
+   var r=readingForIndex(pointer+i);
+   var row=document.createElement("div");row.className="g-row"+(i===0?" now":"");
+   var label=i===0?"Next":("+"+i);
+   var html='<span class="g-day">'+label+'</span>';
+   html+= r?('<span class="g-ref">'+refText(r)+'</span>'):'<span class="g-ref">Plan complete</span>';
+   row.innerHTML=html;glance.appendChild(row);
+  }
+ }
+
+ render();
+
+ var loadedKey=todayStr();
+ function rollover(){if(todayStr()!==loadedKey)location.reload();}
+ document.addEventListener("visibilitychange",function(){if(!document.hidden)rollover();});
+ window.addEventListener("focus",rollover);
+ setInterval(rollover,60000);
+})();
+</script>
+</body>
+</html>  
