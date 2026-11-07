@@ -118,7 +118,7 @@
   <div class="glance" id="glance"></div>
 
   <div class="foot">
-    Read the passage in your Bible first. The study link is optional, for going deeper.
+    Read the passage in your Bible first. Then listen to the Through the Word guide for context.
     It only moves forward when you mark a chapter read, so you never fall behind and weekends are yours to choose.
   </div>
 </div>
@@ -188,7 +188,7 @@
   }
   return null;
  }
- function studyUrl(r){return "https://enduringword.com/bible-commentary/"+r.book.slug+"-"+r.chapter+"/";}
+ function studyUrl(r){return "https://www.youtube.com/results?search_query="+encodeURIComponent(r.book.name+" "+r.chapter+" Explained Through the Word");}
  function refText(r){return r.book.name+" "+r.chapter;}
 
  function todayStr(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();}
@@ -201,7 +201,8 @@
  var DAYNAMES=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
  var MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
  var CHECK='<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#FBF8F1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
- var BOOKICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v18H6a2 2 0 0 0-2 2z"/><path d="M4 5v14"/></svg>';
+ var PLAYICON='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>';
+var BOOKICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v18H6a2 2 0 0 0-2 2z"/><path d="M4 5v14"/></svg>';
 
  var now=new Date();
  var eyebrow=document.getElementById("eyebrow");
@@ -284,8 +285,8 @@
 
   var spacer=document.createElement("div");spacer.style.height="16px";
   var study=document.createElement("a");study.className="study";study.href=studyUrl(r);study.target="_blank";study.rel="noopener";
-  study.innerHTML=BOOKICON+"Open the study";
-  var snote=document.createElement("div");snote.className="study-note";snote.textContent="Optional depth: Enduring Word study for "+refText(r)+".";
+  study.innerHTML=PLAYICON+"Listen to the guide";
+  var snote=document.createElement("div");snote.className="study-note";snote.textContent="About 10 minutes: Through the Word audio guide for "+refText(r)+". Read the chapter first, then press play.";
 
   card.appendChild(lbl);card.appendChild(read);card.appendChild(rsub);card.appendChild(pr);card.appendChild(row);
   card.appendChild(spacer);card.appendChild(study);card.appendChild(snote);
